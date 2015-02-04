@@ -24,6 +24,14 @@ public class ReportesProveedores extends Datos
         return this.obtenerRegistros(sql);
     }
     
+    public ResultSet getAlmacenes()
+    {
+        sql = "select id, nombre from almacenes where "
+                + "order by nombre";
+        
+        return this.obtenerRegistros(sql);
+    }
+    
     public ResultSet getInventariosPorRutas()
     {
         sql = "select a.id, r.id as idRuta, r.clave as codigoRuta, \n" +
@@ -52,7 +60,7 @@ public class ReportesProveedores extends Datos
     public ResultSet getRutas()
     {
         sql = "select z.id as idZona, z.clave, z.nombre, r.id, r.clave, r.nombre as nombreRuta, r.descripcion  \n" +
-        "from rutas as r, zonas as z, almacenes as a where a.esAbasto = 1 and \n" +
+        "from rutas as r, zonas as z, almacenes as a where \n" +
         "r.idZona = z.id and z.idAlmacen = a.id order by z.id, r.id;";
         
         return this.obtenerRegistros(sql);

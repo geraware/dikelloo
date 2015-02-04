@@ -14,7 +14,7 @@
         <title>Almacenes</title>
         <%
             ReportesProveedores daoReportes = new ReportesProveedores();
-            ResultSet cedis = daoReportes.getAlmacenesAbasto();
+            ResultSet cedis = daoReportes.getAlmacenes();
             ResultSet rutas = daoReportes.getRutas();
         %>
         <script src="js/jquery-1.10.2.js"></script>
