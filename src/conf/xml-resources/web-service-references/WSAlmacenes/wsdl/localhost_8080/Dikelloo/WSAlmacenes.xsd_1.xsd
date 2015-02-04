@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://webservices/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://webservices/">
+
+<xs:element name="almacenes" type="tns:almacenes" />
+
+<xs:element name="almacenesResponse" type="tns:almacenesResponse" />
+
+<xs:element name="inventario" type="tns:inventario" />
+
+<xs:element name="inventarioDetallado" type="tns:inventarioDetallado" />
+
+<xs:element name="inventarioDetalladoResponse" type="tns:inventarioDetalladoResponse" />
+
+<xs:element name="inventarioResponse" type="tns:inventarioResponse" />
+
+<xs:element name="usuarioDeAlmacen" type="tns:usuarioDeAlmacen" />
+
+<xs:element name="usuarioDeAlmacenResponse" type="tns:usuarioDeAlmacenResponse" />
+
+<xs:complexType name="inventarioDetallado">
+<xs:sequence>
+<xs:element name="idAlmacen" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inventarioDetalladoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inventario">
+<xs:sequence>
+<xs:element name="idAlmacen" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inventarioResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="usuarioDeAlmacen">
+<xs:sequence>
+<xs:element name="idAlmacen" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="usuarioDeAlmacenResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="almacenes">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="almacenesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
