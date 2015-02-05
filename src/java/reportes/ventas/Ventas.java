@@ -7,6 +7,12 @@ package reportes.ventas;
 
 import conexion.Datos;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import reportes.objetos.valor;
 
 /**
  *
@@ -75,6 +81,105 @@ public class Ventas extends Datos
         " m.idVenta = " + idVenta + " order by m.fechaRegistro desc;";
         
         return this.obtenerRegistros(sql);
+    }
+    
+    public List<valor> getCategorias()
+    {
+        List<valor> datos = new ArrayList<>();
+        
+        try {
+            sql = "select id, descripcion from familias order by descripcion;";
+            ResultSet valores = this.obtenerRegistros(sql);
+            
+            while(valores.next())
+            {
+                int id = valores.getInt("id");
+                String descripcion = valores.getString("descripcion");
+                datos.add(new valor(id, descripcion));
+            }
+        } catch (SQLException ex) {
+            
+        }
+        
+        return datos;
+    }
+    
+    public float getVentaPorCategoriaPorVendedor(int idCategoria, int idVendedor, String fechaInicial, String fechaFinal)
+    {
+        float total = 0f;
+        
+        sql = "";
+        
+        try {
+            
+            ResultSet valores = null;
+            
+            if(fechaInicial.trim().length() > 1)
+            {
+                sql = "select v.idVendedor,f.descripcion, sum(v.cantidad * v.precioVenta) as total\n" +
+                " from familias as f, productos as p, ventas as v, ventasdetalles as vd where \n" +
+                "v.idVenta = vd.id and p.idFamilia = f.id and v.idProducto = p.id and \n" +
+                "vd.estatus = 'Registrada' and v.idVendedor = " + idVendedor + " and f.id = " + idCategoria 
+                + " and date_format(v.fechaRegistro, '%d-%m-%Y') between '" + fechaInicial + "' and '" + fechaFinal + "'" + " group by \n" +
+                "v.idVendedor order by f.descripcion;";
+
+                valores = this.obtenerRegistros(sql);
+                
+            }else
+            {
+                sql = "select v.idVendedor,f.descripcion, sum(v.cantidad * v.precioVenta) as total\n" +
+                " from familias as f, productos as p, ventas as v, ventasdetalles as vd where \n" +
+                "v.idVenta = vd.id and p.idFamilia = f.id and v.idProducto = p.id and \n" +
+                "vd.estatus = 'Registrada' and v.idVendedor = " + idVendedor + " and f.id = " + idCategoria + " group by \n" +
+                "v.idVendedor order by f.descripcion;";
+                
+                valores = this.obtenerRegistros(sql);
+                
+            }
+            
+            
+            valores.next();
+            total = valores.getFloat("total");
+        } catch (Exception e) {
+            
+        }
+        
+        return total;
+    }
+    
+    public float getTotalDeCategoria(int idCategoria, String fechaInicial, String fechaFinal)
+    {
+        float total =0f;
+        
+        sql = "";
+        
+        if(fechaInicial.trim().length() < 1)
+        {
+           sql = "select f.id,f.descripcion, sum(v.cantidad * v.precioVenta) as total\n" +
+            " from familias as f, productos as p, ventas as v, ventasdetalles as vd where \n" +
+            "v.idVenta = vd.id and p.idFamilia = f.id and v.idProducto = p.id and \n" +
+            "vd.estatus = 'Registrada' and f.id = " + idCategoria + " group by \n" +
+            "f.id order by f.descripcion;"; 
+        }else
+        {
+            sql = "select f.id,f.descripcion, sum(v.cantidad * v.precioVenta) as total\n" +
+            " from familias as f, productos as p, ventas as v, ventasdetalles as vd where \n" +
+            "v.idVenta = vd.id and p.idFamilia = f.id and v.idProducto = p.id and \n" +
+            "vd.estatus = 'Registrada' and f.id = " + idCategoria +
+            " and date_format(v.fechaRegistro, '%d-%m-%Y') between '" + fechaInicial + "' and '" + fechaFinal + "'" + " group by \n" +
+            "f.id order by f.descripcion;";
+        }
+        
+        
+        try {
+            ResultSet valores = this.obtenerRegistros(sql);
+            valores.next();
+            total = valores.getFloat("total");
+        } catch (Exception e) {
+            
+        }
+        
+        return total;
     }
     
     

@@ -26,7 +26,7 @@ public class ReportesProveedores extends Datos
     
     public ResultSet getAlmacenes()
     {
-        sql = "select id, nombre from almacenes where "
+        sql = "select id, nombre from almacenes "
                 + "order by nombre";
         
         return this.obtenerRegistros(sql);

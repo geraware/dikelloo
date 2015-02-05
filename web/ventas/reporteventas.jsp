@@ -27,6 +27,8 @@
         <script src="js/jquery-1.10.2.js"></script>
         <script src="js/jquery-ui.js"></script>
         <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" href="../assets/font-awesome-4.2.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/fancy-buttons/fancy-buttons.css">
         <script src="js/utilerias.js"></script>
     </head>
     <body  style="font-family: Tahoma, Arial">

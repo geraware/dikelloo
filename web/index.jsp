@@ -74,6 +74,9 @@
                                 <td>
                                     <a href="ventas/reporteventasconsaldo.jsp">Ventas con saldo</a>
                                 </td>
+                                <td>
+                                    <a href="ventas/reporteventasporcategoria.jsp">Ventas por categoria</a>
+                                </td>
                             </tr>
                         </table>
                     </div>
