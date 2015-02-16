@@ -5,7 +5,6 @@
 --%>
 
 
-<%@page import="webservices.ManejadorWebServices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -76,6 +75,9 @@
                                 </td>
                                 <td>
                                     <a href="ventas/reporteventasporcategoria.jsp">Ventas por categoria</a>
+                                </td>
+                                <td>
+                                    <a href="ventas/reporteventasporcedi.jsp">Ventas por CEDI</a>
                                 </td>
                             </tr>
                         </table>

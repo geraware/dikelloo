@@ -102,4 +102,10 @@ public class InventariosAlmacenes extends Datos
         return this.obtenerRegistros(sql);
     }
     
+    public ResultSet getZonas()
+    {
+        sql = "select id, nombre, descripcion, idAlmacen from zonas order by nombre";
+        return this.obtenerRegistros(sql);
+    }
+    
 }

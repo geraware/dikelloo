@@ -182,6 +182,50 @@ public class Ventas extends Datos
         return total;
     }
     
+    public ResultSet getVentasPorCediPorFecha(int idCedi, String fechaInicial, String fechaFinal)
+    {
+        sql = "select z.nombre as cedis, sum(v.total) as total, date_format(v.fechaRegistro, '%d-%m-%Y') as fecha\n" +
+        " from ventasdetalles as v, clientes as c, zonas as z, rutas as r where \n" +
+        "v.idCliente = c.id and c.idRuta = r.id and r.idZona = z.id and \n" +
+        "z.id = " + idCedi + " and date_format(v.fechaRegistro, '%d-%m-%Y') between '" + fechaInicial + "' and \n" +
+        "'" + fechaFinal + "' group by date_format(v.fechaRegistro, '%d-%m-%Y');   ";
+        
+        return this.obtenerRegistros(sql);
+    }
     
+    public float getVentaTotalPorCediPorFecha(int idCedi, String fechaInicial, String fechaFinal)
+    {
+        sql = "select sum(v.total) as total, date_format(v.fechaRegistro, '%d-%m-%Y') as fecha\n" +
+        " from ventasdetalles as v, clientes as c, zonas as z, rutas as r where \n" +
+        "v.idCliente = c.id and c.idRuta = r.id and r.idZona = z.id and \n" +
+        "z.id = " + idCedi + " and date_format(v.fechaRegistro, '%d-%m-%Y') between '" + fechaInicial + "' and \n" +
+        "'" + fechaFinal + "' group by z.id";
+        float total = 0f;
+        try {
+            ResultSet registros = this.obtenerRegistros(sql);
+            registros.next();
+            total = registros.getFloat("total");
+        } catch (Exception e) {
+            
+        }
+        return total;
+    }
+    
+    public float getGastosPorCediPorFecha(int idCedi, String fechaInicial, String fechaFinal)
+    {
+        sql = "select sum(total) as total from gastosporruta as g, \n" +
+        "zonas as z, rutas as r where g.idRuta = r.id and r.idZona = z.id and \n" +
+        "z.id = " + idCedi + " and date_format(g.fechaRegistro, '%d-%m-%Y') between '" + fechaInicial + "' and \n" +
+        "'" + fechaFinal + "' group by date_format(g.fechaRegistro, '%d-%m-%Y');";
+        float gastos = 0f;
+        try {
+            ResultSet registros = this.obtenerRegistros(sql);
+            registros.next();
+            gastos = registros.getFloat("total");
+        } catch (Exception e) {
+        }
+        
+        return gastos;
+    }
     
 }

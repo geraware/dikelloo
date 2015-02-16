@@ -4,6 +4,9 @@
     Author     : gerardo
 --%>
 
+<%@page import="reportes.objetos.Totales"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.sun.javafx.scene.control.skin.VirtualFlow.ArrayLinkedList"%>
 <%@page import="java.util.List"%>
 <%@page import="reportes.objetos.valor"%>
 <%@page import="reportes.ventas.Ventas"%>
@@ -20,15 +23,23 @@
         <title>Ventas por categoria</title>
         <link rel="stylesheet" href="../assets/font-awesome-4.2.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="../assets/fancy-buttons/fancy-buttons.css">
+        <link rel="stylesheet" href="../css/jquery-ui.css">
+        
         <script src="../js/jquery-1.10.2.js"></script>
         <script src="../js/jquery-ui.js"></script>
-        <link rel="stylesheet" href="../css/jquery-ui.css">
         <script src="../js/utilerias.js"></script>
+        <script src="../js/Chart.js"></script>
         <script>
              $(function() {
                 $( "#fechaInicial" ).datepicker();
                 $( "#fechaFinal" ).datepicker();
              });
+             
+             window.onload = function(){
+                    
+                    //cargarGrafico();
+                    
+                };
         </script>
         <%
             int idUsuario = 0;
@@ -36,6 +47,7 @@
             List<valor> categorias = dVentas.getCategorias();
             Usuarios dUsuarios = new Usuarios();
             ResultSet usuarios = dUsuarios.getVendedores();
+            List<Totales> totales = new ArrayList<Totales>();
             
             if(request.getParameter("id") != null)
             {
@@ -172,6 +184,7 @@
                 <td style="font-size: 14px">
                     <% 
                        float total = dVentas.getTotalDeCategoria(idCategoria, fechaInicial, fechaFinal);
+                       totales.add(new Totales(categoria.getDescripcion(), total));
                        String color = "black";
                        if(total > 0)
                        {
@@ -185,5 +198,57 @@
                 %>
             </tr>
         </table>
+        <br/>
+        <div style="width: 500px">
+            <canvas id="canvas1" width="10" height="10"></canvas>
+        </div>
+            <script>
+                <%
+                   String labels = "";
+                   String datasets = "";
+                   for(Totales total : totales)
+                   {
+                       labels += total.getDescripcion() + ",";
+                       datasets += total.getTotal() + ",";
+                   }
+                   
+                   labels += "";
+                   datasets += "0";
+                %>
+                var barChartData = {
+                        labels : [
+                            <%= labels %>
+                        ],
+                        datasets : [
+
+                                {
+                                        fillColor : "rgba(151,187,205,0.5)",
+                                        strokeColor : "rgba(151,187,205,0.8)",
+                                        highlightFill : "rgba(151,187,205,0.75)",
+                                        highlightStroke : "rgba(151,187,205,1)",
+                                        data : [<%= datasets %>]
+                                }
+                        ]
+
+                }
+                
+                
+                
+                
+                function cargarGrafico()
+                {
+                    
+                    var ctx = document.getElementById("canvas1").getContext("2d");
+                    window.myBar = new Chart(ctx).Bar(barChartData, {
+                                responsive : true
+                        });
+                        
+                }
+            </script>
     </body>
 </html>
+<%
+
+   
+                   
+%>
